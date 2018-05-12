@@ -12,7 +12,7 @@ void	ft_read_map(int fd, t_fill *fill, char *line)
 	fill->map[fill->y] = NULL;
 	while (i < fill->y && get_next_line(fd, &line))
 	{
-		while (line && line[j] != '.')
+		while (line && line[j] != '.' && line[j] != 'X' && line[j] != 'O')
 			j++;
 		fill->map[i] = ft_strdup(line + j);
 		ft_strdel(&line);

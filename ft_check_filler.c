@@ -65,9 +65,7 @@ int		ft_put_figure(t_fill *fill, int k, int z)
 		{
 			if (fill->fig[i][j] == '*')
 			{
-				if (fill->map && fill->map[k][z] && fill->map[k][z] == '.')
-					ft_check_len(fill);
-				else
+				if (!fill->map || !fill->map[k][z] || fill->map[k][z] != '.')
 					return (0);
 			}
 			j++;
@@ -77,6 +75,7 @@ int		ft_put_figure(t_fill *fill, int k, int z)
 		k++;
 		i++;
 	}
+	return (1);
 }
 
 void	ft_check_place(t_fill *fill)
@@ -86,13 +85,21 @@ void	ft_check_place(t_fill *fill)
 
 	i = 0;
 	j = 0;
+	for (int k = 0; k < fill->y; ++k)
+	{
+		ft_printf("%s\n", fill->map[k]);
+	}
 	while (fill->map && fill->map[i])
 	{
 		j = 0;
 		while (fill->map[i][j])
 		{
+			ft_printf("%c", fill->map[i][j]);
 			if (fill->map[i][j] == '.')
-				ft_put_figure(fill, i, j);
+			{
+				if (ft_put_figure(fill, i, j))
+					ft_check_len(fill);
+			}
 			j++;
 		}
 		i++;
