@@ -1,20 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_read_filler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aryabenk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/14 11:18:40 by aryabenk          #+#    #+#             */
+/*   Updated: 2018/05/14 11:18:40 by aryabenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "filler.h"
 
 void	ft_read_map(int fd, t_fill *fill, char *line)
 {
 	int i;
-	int j;
 
 	i = 0;
-	j = 0;
-	fill->map = (char**)malloc(sizeof(char*) * (fill->y + 1));
-	fill->map[fill->y] = NULL;
-	while (i < fill->y && get_next_line(fd, &line))
+	if (line[0] == 'P')
 	{
-		while (line && line[j] != '.' && line[j] != 'X' && line[j] != 'O')
-			j++;
-		fill->map[i] = ft_strdup(line + j);
+		get_next_line(fd, &line);
+		ft_strdel(&line);
+	}
+	while (i < fill->x && get_next_line(fd, &line))
+	{
+		if (!i)
+		{
+			fill->map = (char **)malloc(sizeof(char *) * (fill->x + 1));
+			fill->map[fill->x] = NULL;
+		}
+		fill->map[i] = ft_strdup(line + 4);
 		ft_strdel(&line);
 		i++;
 	}
@@ -25,19 +40,15 @@ void	ft_read_fig(int fd, t_fill *fill, char *line)
 	int i;
 
 	i = 6;
-	fill->fy = (int)ft_atoi(line + i);
+	fill->fx = (int)ft_atoi(line + i);
 	while (line && line[i] && line[i] != ' ')
 		i++;
-	fill->fx = (int)ft_atoi(line + i);
-	fill->fig = (char**)malloc(sizeof(char*) * (fill->fy + 1));
-	fill->fig[fill->fy] = NULL;
+	fill->fy = (int)ft_atoi(line + i);
+	fill->fig = (char**)malloc(sizeof(char*) * (fill->fx + 1));
+	fill->fig[fill->fx] = NULL;
 	i = 0;
-	while (i < fill->fy && get_next_line(fd, &fill->fig[i]))
+	while (i < fill->fx && get_next_line(fd, &fill->fig[i]))
 		i++;
-	for (int j = 0; j < fill->fy; ++j)
-	{
-		ft_printf("%s\n", fill->fig[j]);
-	}
 	ft_filler_heart(fill);
 }
 
@@ -50,17 +61,18 @@ void	ft_read_args(int fd, char *line, t_fill *fill)
 	{
 		if (fill->map)
 			ft_read_fig(fd, fill, line);
-		if (!fill->p && !ft_strcmp("$$$ exec p1 : [./aryabenk.filler]", line))
+		else if (!fill->p && !ft_strcmp("[./aryabenk.filler]", line + 14))
 			fill->p = 1;
-		else if (!fill->p && !ft_strcmp("$$$ exec p2 : [./aryabenk.filler]", line))
+		else if (!fill->p && !ft_strcmp("[./aryabenk.filler]", line + 14))
 			fill->p = 2;
-		else if (fill->p && !fill->x && !fill->y)
+		else if (fill->p && !fill->x && !fill->y && line[0] == 'P')
 		{
-			fill->elem = (char)(fill->p == 1 ? '0' : 'X');
-			fill->y = (int)ft_atoi(line + i);
+			fill->me = (char)(fill->p == 1 ? 'O' : 'X');
+			fill->enemy = (char)(fill->me == 'X' ? 'O' : 'X');
+			fill->x = (int)ft_atoi(line + i);
 			while (line && line[i] && line[i] != ' ')
 				i++;
-			fill->x = (int)ft_atoi(line + (++i));
+			fill->y = (int)ft_atoi(line + (++i));
 		}
 		else if (!fill->map)
 			ft_read_map(fd, fill, line);
