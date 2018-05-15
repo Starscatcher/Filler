@@ -6,7 +6,7 @@
 /*   By: aryabenk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 11:18:13 by aryabenk          #+#    #+#             */
-/*   Updated: 2018/05/14 11:18:14 by aryabenk         ###   ########.fr       */
+/*   Updated: 2018/05/15 17:18:52 by aryabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,7 @@ int		ft_check_len(t_fill *fill, int x, int y)
 				if (x + k >= 0 && y + q >= 0 && \
 					(fill->map[x + k][y + q] == ft_tolower(fill->enemy) || \
 						fill->map[x + k][y + q] == fill->enemy))
-				{
-					if (!fill->len || fill->len > r)
-					{
-						fill->len = r;
-						return (1);
-					}
-					else
-						return (0);
-				}
+					return (!fill->len || fill->len > r) ? (fill->len = r) : 0;
 				q++;
 			}
 			k++;
@@ -94,15 +86,13 @@ int		ft_check_len(t_fill *fill, int x, int y)
 	return (0);
 }
 
-int		ft_put_figure(t_fill *fill, int i, int j)
+int		ft_put_figure(t_fill *fill, int i, int j, int s)
 {
 	int x;
 	int y;
-	int s;
 	int t;
 
 	t = j;
-	s = 0;
 	x = fill->ux;
 	while (x <= fill->dx && i < fill->x)
 	{
@@ -112,11 +102,8 @@ int		ft_put_figure(t_fill *fill, int i, int j)
 		{
 			if (fill->fig[x][y] == '*')
 			{
-				if (fill->map[i][j] == fill->enemy)
-					return (0);
-				else if (fill->map[i][j] == fill->me)
-					s++;
-				if (s > 1)
+				s += fill->map[i][j] == fill->me ? 1 : 0;
+				if (fill->map[i][j] == fill->enemy || s > 1)
 					return (0);
 			}
 			y++;
@@ -125,10 +112,7 @@ int		ft_put_figure(t_fill *fill, int i, int j)
 		x++;
 		i++;
 	}
-	if (s == 1 && x > fill->dx && y > fill->ry)
-		return (1);
-	else
-		return (0);
+	return (s == 1 && x > fill->dx && y > fill->ry) ? 1 : 0;
 }
 
 void	ft_check_place(t_fill *fill)
@@ -142,7 +126,7 @@ void	ft_check_place(t_fill *fill)
 		j = 0;
 		while (fill->map[i][j])
 		{
-			if (ft_put_figure(fill, i, j))
+			if (ft_put_figure(fill, i, j, 0))
 			{
 				if (ft_check_len(fill, i, j))
 				{

@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_filler.c                                      :+:      :+:    :+:   */
+/*   ft_create_flag.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aryabenk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/14 11:18:05 by aryabenk          #+#    #+#             */
-/*   Updated: 2018/05/15 17:20:44 by aryabenk         ###   ########.fr       */
+/*   Created: 2018/05/15 12:09:30 by aryabenk          #+#    #+#             */
+/*   Updated: 2018/05/15 16:34:31 by aryabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filler.h"
+#include "bonuse.h"
 
-int	main(void)
+t_flag	*ft_create_flag(t_flag *flag)
 {
-	int		fd;
-	char	*line;
-	t_fill	*fill;
+	flag = (t_flag*)malloc(sizeof(t_flag));
+	flag->h = 0;
+	flag->t = 300;
+	flag->f = 0;
+	flag->first = 0;
+	flag->second = 0;
+	flag->pp1 = NULL;
+	flag->pp2 = NULL;
+	return (flag);
+}
 
-	fill = NULL;
-	fd = 0;
-	line = NULL;
-	fill = ft_create_fill(fill);
-	ft_read_args(fd, line, fill);
-	ft_del_fill(fill);
+void	ft_del_flag(t_flag *flag)
+{
+	ft_strdel(&flag->pp1);
+	ft_strdel(&flag->pp2);
+	free(flag);
+	flag = NULL;
 }

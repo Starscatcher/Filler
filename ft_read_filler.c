@@ -61,9 +61,9 @@ void	ft_read_args(int fd, char *line, t_fill *fill)
 	{
 		if (fill->map)
 			ft_read_fig(fd, fill, line);
-		else if (!fill->p && !ft_strcmp("[./aryabenk.filler]", line + 14))
+		else if (!fill->p && !ft_strcmp("p1 : [./aryabenk.filler]", line + 9))
 			fill->p = 1;
-		else if (!fill->p && !ft_strcmp("[./aryabenk.filler]", line + 14))
+		else if (!fill->p && !ft_strcmp("p2 : [./aryabenk.filler]", line + 9))
 			fill->p = 2;
 		else if (fill->p && !fill->x && !fill->y && line[0] == 'P')
 		{

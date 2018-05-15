@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_filler.c                                      :+:      :+:    :+:   */
+/*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aryabenk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/14 11:18:05 by aryabenk          #+#    #+#             */
-/*   Updated: 2018/05/15 17:20:44 by aryabenk         ###   ########.fr       */
+/*   Created: 2018/05/15 12:04:50 by aryabenk          #+#    #+#             */
+/*   Updated: 2018/05/15 16:39:10 by aryabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filler.h"
+#include <locale.h>
+#include "bonuse.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	int		fd;
+	t_flag	*flag;
 	char	*line;
-	t_fill	*fill;
+	int		fd;
 
-	fill = NULL;
-	fd = 0;
+	flag = NULL;
 	line = NULL;
-	fill = ft_create_fill(fill);
-	ft_read_args(fd, line, fill);
-	ft_del_fill(fill);
+	setlocale(LC_ALL, "");
+	fd = 0;
+	flag = ft_create_flag(flag);
+	ft_read_flags(argc, argv, flag);
+	ft_read(fd, line, flag);
+	ft_print_final(flag);
+	ft_del_flag(flag);
+	return (1);
 }
