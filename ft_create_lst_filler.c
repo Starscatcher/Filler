@@ -26,7 +26,6 @@ t_fill	*ft_create_fill(t_fill *fill)
 	fill->ly = -1;
 	fill->len = 0;
 	fill->me = 0;
-	fill->on = 0;
 	fill->enemy = 0;
 	fill->rex = 0;
 	fill->rey = 0;

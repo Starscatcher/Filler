@@ -31,7 +31,6 @@ typedef struct			s_fill
 	int		len;
 	int		rex;
 	int		rey;
-	int		on;
 	char	me;
 	char	enemy;
 	char	**map;

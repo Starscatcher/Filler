@@ -83,7 +83,7 @@ int		ft_check_len(t_fill *fill, int x, int y)
 		}
 		r++;
 	}
-	return (0);
+	return (r);
 }
 
 int		ft_put_figure(t_fill *fill, int i, int j, int s)

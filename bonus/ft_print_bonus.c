@@ -6,7 +6,7 @@
 /*   By: aryabenk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 12:44:12 by aryabenk          #+#    #+#             */
-/*   Updated: 2018/05/15 16:58:45 by aryabenk         ###   ########.fr       */
+/*   Updated: 2018/05/16 09:41:25 by aryabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,19 @@ void	ft_print_help(t_flag *flag)
 
 void	ft_print_final(t_flag *flag)
 {
-	ft_printf("\n{green}Player 1:{eoc} %d\n", flag->first);
-	ft_printf("{red}Player 2:{eoc} %d\n\n", flag->second);
-	if (flag->first > flag->second)
-		ft_printf("{green}FIRST PLAYER WON!{eoc}\n");
-	else if (flag->first > flag->second)
-		ft_printf("{red}SECOND PLAYER WON!{eoc}\n");
+	if (!flag->pp1 || !flag->pp2)
+		ft_print_help(flag);
 	else
-		ft_printf("NOBODY WON!\n");
+	{
+		ft_printf("\n{green}Player 1:{eoc} %d\n", flag->first);
+		ft_printf("{red}Player 2:{eoc} %d\n\n", flag->second);
+		if (flag->first > flag->second)
+			ft_printf("{green}FIRST PLAYER WON!{eoc}\n");
+		else if (flag->first < flag->second)
+			ft_printf("{red}SECOND PLAYER WON!{eoc}\n");
+		else
+			ft_printf("NOBODY WON!\n");
+	}
 }
 
 char	*ft_print_map(int fd, char *line)
@@ -76,7 +81,7 @@ char	*ft_print_fig(int fd, char *line)
 	int i;
 
 	ft_strdel(&line);
-	ft_printf("{sea wave}FIGURE{eoc}\n");
+	ft_printf("\n{sea wave}FIGURE{eoc}\n");
 	while (get_next_line(fd, &line))
 	{
 		i = 0;
